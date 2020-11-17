@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
@@ -16,15 +15,25 @@ import java.util.Objects;
 @NoArgsConstructor
 @ToString
 @Entity
+@Table(name = "PRODUCT")
+@NamedQueries({
+        @NamedQuery(name="Product.findProductsByOrderId",
+                query="SELECT p " +
+                        "FROM Product p, OrderItem ordit, Order ord " +
+                        "WHERE p.id = ordit.id " +
+                        "AND ordit.id = ord.id " +
+                        "AND ordit.id = :orderId ")
+})
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRODUCT_ID")
     private Long id;
     @Column(name = "NAME")
     private String name;
     @Column(name = "TYPE")
+    @Enumerated(EnumType.STRING)
     private ProductType type;
     @Column(name = "PRICE")
     private double price;

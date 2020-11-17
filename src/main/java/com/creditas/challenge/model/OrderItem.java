@@ -15,11 +15,11 @@ import javax.persistence.*;
 public class OrderItem {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, updatable = false)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name="ORDR_ID")
+    @ManyToOne()
+    @JoinColumn(name = "ORDR_ID")
     private Order order;
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")

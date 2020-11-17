@@ -20,7 +20,7 @@ import java.util.Objects;
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDR_ID")
     private Long id;
     @ManyToOne
@@ -33,7 +33,7 @@ public class Order {
     private Date closedAt;
     @OneToOne(mappedBy="order")
     private Payment payment;
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new LinkedList<>();
 
     public Order(Customer customer, Address address) {

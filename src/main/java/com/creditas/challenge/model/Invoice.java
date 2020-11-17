@@ -16,7 +16,7 @@ import java.util.Objects;
 public class Invoice {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "INVOICE_ID")
     private Long id;
     @OneToOne(mappedBy="invoice")

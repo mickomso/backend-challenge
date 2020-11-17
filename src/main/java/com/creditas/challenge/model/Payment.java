@@ -17,7 +17,7 @@ import java.util.Objects;
 public class Payment {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PAYMENT_ID")
     private Long id;
     @OneToOne

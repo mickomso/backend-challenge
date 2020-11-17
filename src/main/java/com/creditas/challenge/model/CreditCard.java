@@ -3,13 +3,22 @@ package com.creditas.challenge.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class CreditCard implements PaymentMethod {
+@ToString
+@Entity
+@DiscriminatorValue("CREDIT_CARD")
+public class CreditCard extends PaymentMethod {
+
+    @Column(name = "NUMBER", unique = true)
     private String number;
 
     public CreditCard(String number) {

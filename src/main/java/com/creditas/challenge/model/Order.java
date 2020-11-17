@@ -3,7 +3,9 @@ package com.creditas.challenge.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,13 +14,26 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
+@Entity
+@Table(name="ORDR")
 public class Order {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "ORDR_ID")
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "ADDRESS_ID")
     private Address address;
+    @Column(name = "CLOSED_AT")
     private Date closedAt;
+    @OneToOne(mappedBy="order")
     private Payment payment;
-
+    @OneToMany(mappedBy = "id")
     private List<OrderItem> items = new LinkedList<>();
 
     public Order(Customer customer, Address address) {

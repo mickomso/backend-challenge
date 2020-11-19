@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import org.slf4j.Logger;
 
@@ -56,9 +55,6 @@ public class PaymentTests {
         orderService.deleteOrderCompletely(newOrder);
         paymentMethodService.deleteByNumber("123456789");
     }
-
-    @Autowired
-    private InvoiceService invoiceService;
 
     @Autowired
     private PaymentMethodService paymentMethodService;

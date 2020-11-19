@@ -21,6 +21,7 @@ public class Payment {
     @Column(name = "PAYMENT_ID")
     private Long id;
     @OneToOne
+    @JoinColumn(name = "ORDR_ID")
     private Order order;
     @ManyToOne
     @JoinColumn(name = "PAYMENT_METHOD_ID")
@@ -31,17 +32,13 @@ public class Payment {
     private long authorizationNumber;
     @Column(name = "AMOUNT")
     private double amount;
-    @OneToOne
-    private Invoice invoice;
 
-    public Payment(Order order, PaymentMethod paymentMethod) {
+    public Payment(Order order, PaymentMethod paymentMethod, Double amount) {
         this.order = order;
         this.paymentMethod = paymentMethod;
         this.paidAt = new Date();
         this.authorizationNumber = paidAt.getTime();
-        //this.amount = order.totalAmount();
-        this.amount = 0;
-        this.invoice = new Invoice(order.getPayment());
+        this.amount = amount;
     }
 
     @Override
@@ -53,12 +50,11 @@ public class Payment {
                 Double.compare(payment.amount, amount) == 0 &&
                 Objects.equals(order, payment.order) &&
                 Objects.equals(paymentMethod, payment.paymentMethod) &&
-                Objects.equals(paidAt, payment.paidAt) &&
-                Objects.equals(invoice, payment.invoice);
+                Objects.equals(paidAt, payment.paidAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(order, paymentMethod, paidAt, authorizationNumber, amount, invoice);
+        return Objects.hash(order, paymentMethod, paidAt, authorizationNumber, amount);
     }
 }

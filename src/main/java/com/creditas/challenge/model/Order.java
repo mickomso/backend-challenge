@@ -31,8 +31,6 @@ public class Order {
     private Address address;
     @Column(name = "CLOSED_AT")
     private Date closedAt;
-    @OneToOne(mappedBy="order")
-    private Payment payment;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new LinkedList<>();
 
@@ -40,7 +38,6 @@ public class Order {
         this.customer = customer;
         this.address = address;
         this.closedAt = null;
-        this.payment = null;
     }
 
     @Override
@@ -51,12 +48,11 @@ public class Order {
         return Objects.equals(customer, order.customer) &&
                 Objects.equals(address, order.address) &&
                 Objects.equals(closedAt, order.closedAt) &&
-                Objects.equals(payment, order.payment) &&
                 Objects.equals(items, order.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customer, address, closedAt, payment, items);
+        return Objects.hash(customer, address, closedAt, items);
     }
 }

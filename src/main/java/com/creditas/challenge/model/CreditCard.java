@@ -5,9 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
@@ -21,8 +19,13 @@ public class CreditCard extends PaymentMethod {
     @Column(name = "NUMBER", unique = true)
     private String number;
 
+    @Column(name = "TYPE")
+    @Enumerated(EnumType.STRING)
+    private PaymentMethodType type;
+
     public CreditCard(String number) {
         this.number = number;
+        this.type = PaymentMethodType.CREDIT_CARD;
     }
 
     @Override
@@ -30,11 +33,12 @@ public class CreditCard extends PaymentMethod {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CreditCard that = (CreditCard) o;
-        return Objects.equals(number, that.number);
+        return number.equals(that.number) &&
+                type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number);
+        return Objects.hash(number, type);
     }
 }

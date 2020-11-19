@@ -14,10 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ChallengeTests {
+public class OrderTests {
 
     private Order newOrder;
 
@@ -32,12 +33,16 @@ public class ChallengeTests {
     }
 
     @Test
-    public void testTotalAmount() {
-        orderService.addProduct(newOrder,new Product("Product 1", ProductType.DIGITAL, 10.0), 2);
-        orderService.addProduct(newOrder,new Product("Product 2", ProductType.DIGITAL, 15.0), 2);
-        double total = orderService.totalAmount(newOrder);
+    public void testEmptyProductListWhenNoProductAdded() {
+        assertTrue(newOrder.getItems().isEmpty(), () -> "List of items should be empty.");
+    }
 
-        assertEquals(total, 50.0, 0.0);
+    @Test
+    public void testAddProduct() {
+        orderService.addProduct(newOrder,new Product("Product 1", ProductType.DIGITAL, 10.0), 1);
+        orderService.addProduct(newOrder,new Product("Product 2", ProductType.BOOK, 11.0), 1);
+        orderService.addProduct(newOrder,new Product("Product 3", ProductType.PHYSICAL, 12.0), 1);
+        assertEquals(newOrder.getItems().size(), 3);
     }
 
     @Autowired
@@ -48,5 +53,4 @@ public class ChallengeTests {
 
     @Autowired
     private OrderService orderService;
-
 }

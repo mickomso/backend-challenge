@@ -1,9 +1,9 @@
 package com.creditas.challenge.repositories;
 
-import com.creditas.challenge.model.OrderItem;
+import com.creditas.challenge.model.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderItemRepository extends JpaRepository<OrderItem, Long>, CustomOrderItemRepository {
+public interface InvoiceRepository extends JpaRepository<Invoice, Long>, CustomInvoiceRepository {
 }

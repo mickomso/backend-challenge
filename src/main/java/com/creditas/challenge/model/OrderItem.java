@@ -15,7 +15,8 @@ import javax.persistence.*;
 public class OrderItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="seq_orderitem_generator")
+    @SequenceGenerator(name="seq_orderitem_generator",sequenceName="SEQ_ORDERITEM", allocationSize=1)
     @Column(name = "id", insertable = false, updatable = false)
     private Long id;
     @ManyToOne()

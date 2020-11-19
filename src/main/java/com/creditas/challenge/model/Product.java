@@ -27,7 +27,8 @@ import java.util.Objects;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="seq_product_generator")
+    @SequenceGenerator(name="seq_product_generator",sequenceName="SEQ_PRODUCT", allocationSize=1)
     @Column(name = "PRODUCT_ID")
     private Long id;
     @Column(name = "NAME")

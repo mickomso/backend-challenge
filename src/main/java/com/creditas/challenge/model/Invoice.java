@@ -16,11 +16,13 @@ import java.util.Objects;
 public class Invoice {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="seq_invoice_generator")
+    @SequenceGenerator(name="seq_invoice_generator",sequenceName="SEQ_INVOICE", allocationSize=1)
     @Column(name = "INVOICE_ID")
     private Long id;
-    @OneToOne(mappedBy="invoice")
-    private Payment payment;
+    @OneToOne
+    @JoinColumn(name = "ORDR_ID")
+    private Order order;
     @ManyToOne
     @JoinColumn(name = "ADDRESS_ID", insertable = false, updatable = false)
     private Address billingAddress;
@@ -28,10 +30,10 @@ public class Invoice {
     @JoinColumn(name = "ADDRESS_ID", insertable = false, updatable = false)
     private Address shippingAddress;
 
-    public Invoice(Payment payment) {
-        this.payment = payment;
-        this.billingAddress = payment.getOrder().getAddress();
-        this.shippingAddress = payment.getOrder().getAddress();
+    public Invoice(Order order) {
+        this.order = order;
+        this.billingAddress = order.getAddress();
+        this.shippingAddress = order.getAddress();
     }
 
     @Override
@@ -39,13 +41,13 @@ public class Invoice {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Invoice invoice = (Invoice) o;
-        return Objects.equals(payment, invoice.payment) &&
+        return Objects.equals(order, invoice.order) &&
                 Objects.equals(billingAddress, invoice.billingAddress) &&
                 Objects.equals(shippingAddress, invoice.shippingAddress);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(payment, billingAddress, shippingAddress);
+        return Objects.hash(order, billingAddress, shippingAddress);
     }
 }

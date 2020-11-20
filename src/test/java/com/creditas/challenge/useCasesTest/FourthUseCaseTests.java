@@ -1,5 +1,6 @@
 package com.creditas.challenge.useCasesTest;
 
+
 import com.creditas.challenge.model.*;
 import com.creditas.challenge.services.*;
 import org.junit.After;
@@ -18,42 +19,43 @@ import static org.junit.Assert.assertTrue;
 
 /**
  *
- * THIRD USE CASE:
+ * FOURTH USE CASE:
  *
- *   Third Use Case: If the payment is an ordinary book,
- *   you must generate a shipping label with a notification that it is a tax-exempt item.
+ *   Fourth Use Case: If payment of any digital media (music, video),
+ *   in addition to sending the description of the purchase by email to the buyer,
+ *   grant a discount voucher of 10% to the buyer associated with the payment.
  *
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ThirdUseCaseTests {
+public class FourthUseCaseTests {
 
-    private Logger log = LoggerFactory.getLogger(ThirdUseCaseTests.class);
+    private Logger log = LoggerFactory.getLogger(FourthUseCaseTests.class);
     private Order order;
 
     @Before
     public void execute() throws Exception {
-        log.info("\nStarting the third use case...");
+        log.info("\nStarting the fourth use case...");
         Address address = createAddress();
         Customer customer = createCustomer();
         order = orderService.createOrder(customer, address);
-        List<Product> bookProducts = productService.findByType(ProductType.BOOK);
-        orderService.addProduct(order, bookProducts.get(0), 1);
+        List<Product> digitalProducts = productService.findByType(ProductType.DIGITAL);
+        orderService.addProduct(order, digitalProducts.get(0), 1);
 
         PaymentMethod paymentMethod = paymentMethodService.createPaymentMethod("1234", PaymentMethodType.CREDIT_CARD);
         paymentService.createPayment(order, paymentMethod, orderService.totalAmount(order));
     }
 
     @Test
-    public void testSubscriptionIsCreatedForCustomer() {
-        List<ShippingLabel> shippingLabels = shippingLabelService.findByOrder(order);
-        shippingLabels.stream().forEach(shippingLabel -> log.info(shippingLabel.toString()));
-        assertTrue(shippingLabels.size()==1);
+    public void testDiscountIsCreatedForCustomer() {
+        List<Discount> discounts = discountService.findByOrderAndCustomer(order);
+        discounts.stream().forEach(discount -> log.info(discount.toString()));
+        assertTrue(discounts.size()==1);
     }
 
     @After
     public void end() {
-        log.info("\nThe third use case has finished.");
+        log.info("\nThe fourth use case has finished.");
     }
 
     private Customer createCustomer() {
@@ -83,5 +85,5 @@ public class ThirdUseCaseTests {
     private OrderService orderService;
 
     @Autowired
-    private ShippingLabelService shippingLabelService;
+    private DiscountService discountService;
 }

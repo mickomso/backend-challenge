@@ -14,7 +14,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name="ORDR")
 public class Order {
@@ -55,5 +54,15 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hash(customer, address, closedAt, items);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", address=" + address +
+                ", closedAt=" + closedAt +
+                '}';
     }
 }

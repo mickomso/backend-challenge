@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -60,17 +59,6 @@ public class DefaultOrderService implements OrderService {
         invoiceService.deleteByOrder(order);
         paymentService.deletePaymentByOrder(order);
         orderRepository.delete(order);
-    }
-
-    @Override
-    public void findPhysicalProductsByOrderAndCreateShippingLabel(Order order) {
-        List<OrderItem> items = order.getItems();
-        if(!items.isEmpty()) {
-            items
-                    .stream()
-                    .filter(orderItem -> orderItem.getProduct().getType().equals(ProductType.PHYSICAL))
-                    .forEach(item -> shippingLabelService.createShippingLabel(order, item.getProduct()));
-        }
     }
 
     @Override

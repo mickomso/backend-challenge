@@ -39,6 +39,15 @@ public class OrderTests {
     }
 
     @Test
+    public void testTotalAmount() {
+        orderService.addProduct(newOrder,new Product("Product 1", ProductType.DIGITAL, 10.0), 2);
+        orderService.addProduct(newOrder,new Product("Product 2", ProductType.DIGITAL, 15.0), 2);
+        double total = orderService.totalAmount(newOrder);
+
+        assertEquals(total, 50.0, 0.0);
+    }
+
+    @Test
     public void testAddProduct() {
         orderService.addProduct(newOrder,new Product("Product 3", ProductType.MEMBERSHIP, 10.0), 1);
         orderService.addProduct(newOrder,new Product("Product 4", ProductType.PHYSICAL, 11.0), 1);

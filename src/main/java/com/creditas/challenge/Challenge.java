@@ -13,8 +13,7 @@ import java.util.Optional;
 /**
  * USE CASES:
  *
- * - Second Use Case: If payment is a service subscription, you must activate the subscription,
- *   and notify the user via email about this.
+ * -
  *
  * - Third Use Case: If the payment is an ordinary book, you must generate a shipping label with
  *   a notification that it is a tax-exempt item.

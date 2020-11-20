@@ -28,4 +28,9 @@ public class DefaultCustomerService implements CustomerService {
     public Optional<Customer> findById(Long id) {
         return customerRepository.findById(id);
     }
+
+    @Override
+    public void sendEmail(Customer customer, String subject, String body) {
+        // TODO Not covered by this prototype
+    }
 }

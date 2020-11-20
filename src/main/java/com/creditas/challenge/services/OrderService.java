@@ -42,13 +42,6 @@ public interface OrderService {
     public void deleteOrderCompletely(Order order);
 
     /**
-     * Finds each physical type product and creates a shipping label for each one.
-     * @param order
-     */
-    public void findPhysicalProductsByOrderAndCreateShippingLabel(Order order);
-
-
-    /**
      * Creates and saves an order.
      * @param customer
      * @param address

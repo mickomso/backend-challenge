@@ -11,4 +11,6 @@ public interface CustomerService {
     public Customer createCustomer(String firstName, String lastName, String email);
 
     public Optional<Customer> findById(Long id);
+
+    public void sendEmail(Customer customer, String subject, String body);
 }

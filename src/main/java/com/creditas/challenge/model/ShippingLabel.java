@@ -27,11 +27,14 @@ public class ShippingLabel {
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
+    @Column(name = "TAX_EXEMPT")
+    private boolean taxExempt;
 
-    public ShippingLabel(Order order, Product product) {
+    public ShippingLabel(Order order, Product product, boolean taxExempt) {
         this.order = order;
         this.createdAt = new Date();
         this.product = product;
+        this.taxExempt = taxExempt;
     }
 
     @Override
@@ -50,12 +53,17 @@ public class ShippingLabel {
 
     @Override
     public String toString() {
+        String taxExempText = "TAX-EXEMPT ITEM";
+        if (!taxExempt) {
+            taxExempText = "";
+        }
         return "SHIPPING LABEL {" +
                 "order_id=" + order.getId() +
                 ", product=Product(id=" + product.getId() +
                 ", type=" + product.getType() +
-                ", price=" + product.getPrice() +
-                ")" +
+                ", price=" + product.getPrice() + "  (" +
+                taxExempText +
+                "))" +
                 ", customer=" + order.getCustomer().getFirstName() +
                 " " + order.getCustomer().getLastName() +
                 ", address=" + order.getAddress() +

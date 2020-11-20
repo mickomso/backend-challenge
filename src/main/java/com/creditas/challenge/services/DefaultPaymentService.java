@@ -26,13 +26,13 @@ public class DefaultPaymentService implements PaymentService {
         List<OrderItem> digitalItems = items.stream().filter(orderItem -> orderItem.getProduct().getType().equals(ProductType.DIGITAL)).collect(Collectors.toList());
 
         if (!physicalItems.isEmpty()) {
-            physicalItems.stream().forEach(item -> shippingLabelService.createShippingLabel(order, item.getProduct()));
+            physicalItems.stream().forEach(item -> shippingLabelService.createShippingLabel(order, item.getProduct(),false));
         }
         if (!membershipItems.isEmpty()) {
             membershipItems.stream().forEach(item -> subscriptionService.createActiveSubscriptionAndSendEmail(order.getCustomer()));
         }
         if(!bookItems.isEmpty()) {
-
+            bookItems.stream().forEach(item -> shippingLabelService.createShippingLabel(order,item.getProduct(),true));
         }
         if(!digitalItems.isEmpty()) {
 

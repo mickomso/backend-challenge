@@ -12,8 +12,8 @@ import java.util.Optional;
 public class DefaultShippingLabelService implements ShippingLabelService {
 
     @Override
-    public ShippingLabel createShippingLabel(Order order, Product product) {
-        ShippingLabel shippingLabelSaved = shippingLabelRepository.save(new ShippingLabel(order,product));
+    public ShippingLabel createShippingLabel(Order order, Product product, boolean exempt) {
+        ShippingLabel shippingLabelSaved = shippingLabelRepository.save(new ShippingLabel(order,product,exempt));
         printShippingLabel(shippingLabelSaved);
         return shippingLabelSaved;
     }

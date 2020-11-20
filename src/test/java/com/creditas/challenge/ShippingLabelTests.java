@@ -39,13 +39,13 @@ public class ShippingLabelTests {
 
     @Test
     public void testCreateShippingLabel() {
-        ShippingLabel shippingLabel = shippingLabelService.createShippingLabel(newOrder, newProduct);
+        ShippingLabel shippingLabel = shippingLabelService.createShippingLabel(newOrder, newProduct,false);
         assertNotNull("The shipping label has not been created correctly.",shippingLabel.getId());
     }
 
     @Test
     public void testDeleteShippingLabelByOrder() {
-        ShippingLabel shippingLabel = shippingLabelService.createShippingLabel(newOrder, newProduct);
+        ShippingLabel shippingLabel = shippingLabelService.createShippingLabel(newOrder, newProduct,false);
         Long id = shippingLabel.getId();
         shippingLabelService.deleteByOrder(newOrder);
         assertFalse("The shipping label has not been removed correctly,", shippingLabelService.findById(id).isPresent());

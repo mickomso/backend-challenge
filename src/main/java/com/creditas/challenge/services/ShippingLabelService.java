@@ -11,9 +11,10 @@ public interface ShippingLabelService {
      * Creates and saves a shipping label
      * @param order
      * @param product
+     * @param exempt
      * @return the saved shipping label
      */
-    public ShippingLabel createShippingLabel(Order order, Product product);
+    public ShippingLabel createShippingLabel(Order order, Product product, boolean exempt);
 
     /**
      * Prints the shipping label received

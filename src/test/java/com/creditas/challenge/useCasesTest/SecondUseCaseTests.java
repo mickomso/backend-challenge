@@ -14,69 +14,59 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertTrue;
 
 /**
  *
- * FIRST USE CASE:
+ * SECOND USE CASE:
  *
- *   First Use Case: If the payment is for a physical item, you must generate one shipping label for it
- *   to be placed in the shipping box.
+ *   Second Use Case: If payment is a service subscription, you must activate the subscription,
+ *   and notify the user via email about this.
  *
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FirstUseCaseTests {
+public class SecondUseCaseTests {
 
-    private Logger log = LoggerFactory.getLogger(FirstUseCaseTests.class);
-
+    private Logger log = LoggerFactory.getLogger(SecondUseCaseTests.class);
     private Order order;
 
     @Before
     public void execute() throws Exception {
-        log.info("\nStarting the first use case...");
+        log.info("\nStarting the second use case...");
         Address address = createAddress();
         Customer customer = createCustomer();
         order = orderService.createOrder(customer, address);
-        List<Product> physicalProducts = productService.findByType(ProductType.PHYSICAL);
-        orderService.addProduct(order,physicalProducts.get(0),1);
+        List<Product> membershipProducts = productService.findByType(ProductType.MEMBERSHIP);
+        orderService.addProduct(order, membershipProducts.get(0), 1);
 
-        PaymentMethod paymentMethod = paymentMethodService.createPaymentMethod("4567", PaymentMethodType.CREDIT_CARD);
+        PaymentMethod paymentMethod = paymentMethodService.createPaymentMethod("1234", PaymentMethodType.CREDIT_CARD);
         paymentService.createPayment(order, paymentMethod, orderService.totalAmount(order));
     }
 
     @Test
-    public void testShippingLabelIsCreated() {
-        List<ShippingLabel> shippingLabels = shippingLabelService.findByOrder(order);
-        shippingLabels.stream().forEach(shippingLabel -> log.info(shippingLabel.toString()));
-        assertTrue(shippingLabels.size()==1);
+    public void testSubscriptionIsCreatedForCustomer() {
+        List<Subscription> subscriptions = subscriptionService.findByCustomer(order.getCustomer());
+        subscriptions.stream().forEach(subscription -> log.info(subscription.toString()));
+        assertTrue(subscriptions.size() == 1);
     }
 
     @After
     public void end() {
-        log.info("\nThe first use case has finished.");
+        log.info("\nThe second use case has finished.");
     }
 
     private Customer createCustomer() {
-        return customerService.createCustomer("Miguel","Company","migcom@mail.com");
+        return customerService.createCustomer("Miguel", "Company", "migcom@mail.com");
     }
 
     private Address createAddress() {
-        return addressService.createAddress("Avenida Aragón",100, "Valencia","Spain","46022");
-    }
-
-    private List<Product> findProducts() {
-        return productService.findByOrderAndType(order, ProductType.PHYSICAL);
-        // In 'data.sql' has been inserted one PHYSICAL type product
+        return addressService.createAddress("Avenida Aragón", 100, "Valencia", "Spain", "46022");
     }
 
     @Autowired
     private PaymentMethodService paymentMethodService;
-
-    @Autowired
-    private OrderItemService orderItemService;
 
     @Autowired
     private CustomerService customerService;
@@ -94,5 +84,5 @@ public class FirstUseCaseTests {
     private OrderService orderService;
 
     @Autowired
-    private ShippingLabelService shippingLabelService;
+    private SubscriptionService subscriptionService;
 }

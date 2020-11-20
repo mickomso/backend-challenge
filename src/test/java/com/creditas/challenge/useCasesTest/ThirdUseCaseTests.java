@@ -19,27 +19,27 @@ import static org.junit.Assert.assertTrue;
 
 /**
  *
- * SECOND USE CASE:
+ * THIRD USE CASE:
  *
- *   Second Use Case: If payment is a service subscription, you must activate the subscription,
- *   and notify the user via email about this.
+ *   Third Use Case: If the payment is an ordinary book,
+ *   you must generate a shipping label with a notification that it is a tax-exempt item.
  *
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SecondUseCaseTest {
+public class ThirdUseCaseTests {
 
-    private Logger log = LoggerFactory.getLogger(Challenge.class);
+    private Logger log = LoggerFactory.getLogger(ThirdUseCaseTests.class);
     private Order order;
 
     @Before
     public void execute() throws Exception {
-        log.info("\nStarting the second use case...");
+        log.info("\nStarting the third use case...");
         Address address = createAddress();
         Customer customer = createCustomer();
         order = orderService.createOrder(customer, address);
-        List<Product> physicalProducts = productService.findByType(ProductType.MEMBERSHIP);
-        orderService.addProduct(order, physicalProducts.get(0), 1);
+        List<Product> bookProducts = productService.findByType(ProductType.BOOK);
+        orderService.addProduct(order, bookProducts.get(0), 1);
 
         PaymentMethod paymentMethod = paymentMethodService.createPaymentMethod("1234", PaymentMethodType.CREDIT_CARD);
         paymentService.createPayment(order, paymentMethod, orderService.totalAmount(order));
@@ -47,14 +47,14 @@ public class SecondUseCaseTest {
 
     @Test
     public void testSubscriptionIsCreatedForCustomer() {
-        List<Subscription> subscriptions = subscriptionService.findByCustomer(order.getCustomer());
-        subscriptions.stream().forEach(subscription -> log.info(subscription.toString()));
-        assertTrue(subscriptions.size() == 1);
+        List<ShippingLabel> shippingLabels = shippingLabelService.findByOrder(order);
+        shippingLabels.stream().forEach(shippingLabel -> log.info(shippingLabel.toString()));
+        assertTrue(shippingLabels.size()==1);
     }
 
     @After
     public void end() {
-        log.info("\nThe second use case has finished.");
+        log.info("\nThe third use case has finished.");
     }
 
     private Customer createCustomer() {
@@ -67,9 +67,6 @@ public class SecondUseCaseTest {
 
     @Autowired
     private PaymentMethodService paymentMethodService;
-
-    @Autowired
-    private OrderItemService orderItemService;
 
     @Autowired
     private CustomerService customerService;
@@ -87,5 +84,5 @@ public class SecondUseCaseTest {
     private OrderService orderService;
 
     @Autowired
-    private SubscriptionService subscriptionService;
+    private ShippingLabelService shippingLabelService;
 }

@@ -2,7 +2,7 @@ package com.creditas.challenge;
 
 import com.creditas.challenge.model.PaymentMethod;
 import com.creditas.challenge.model.PaymentMethodType;
-import com.creditas.challenge.services.PaymentMethodService;
+import com.creditas.challenge.service.interfaces.PaymentMethodService;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

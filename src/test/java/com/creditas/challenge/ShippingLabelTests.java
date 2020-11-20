@@ -1,10 +1,10 @@
 package com.creditas.challenge;
 
 import com.creditas.challenge.model.*;
-import com.creditas.challenge.services.AddressService;
-import com.creditas.challenge.services.CustomerService;
-import com.creditas.challenge.services.OrderService;
-import com.creditas.challenge.services.ShippingLabelService;
+import com.creditas.challenge.service.interfaces.AddressService;
+import com.creditas.challenge.service.interfaces.CustomerService;
+import com.creditas.challenge.service.interfaces.OrderService;
+import com.creditas.challenge.service.interfaces.ShippingLabelService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

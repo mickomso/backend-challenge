@@ -1,7 +1,7 @@
 package com.creditas.challenge.useCasesTest;
 
 import com.creditas.challenge.model.*;
-import com.creditas.challenge.services.*;
+import com.creditas.challenge.service.interfaces.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

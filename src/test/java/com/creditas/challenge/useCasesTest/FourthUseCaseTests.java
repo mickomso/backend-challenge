@@ -42,7 +42,7 @@ public class FourthUseCaseTests {
         List<Product> digitalProducts = productService.findByType(ProductType.DIGITAL);
         orderService.addProduct(order, digitalProducts.get(0), 1);
 
-        PaymentMethod paymentMethod = paymentMethodService.createPaymentMethod("1234", PaymentMethodType.CREDIT_CARD);
+        PaymentMethod paymentMethod = paymentMethodService.createPaymentMethod("8604", PaymentMethodType.CREDIT_CARD);
         paymentService.createPayment(order, paymentMethod, orderService.totalAmount(order));
     }
 

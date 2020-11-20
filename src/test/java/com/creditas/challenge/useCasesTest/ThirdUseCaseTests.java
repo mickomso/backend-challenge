@@ -1,9 +1,5 @@
 package com.creditas.challenge.useCasesTest;
 
-<<<<<<< HEAD
-import com.creditas.challenge.Challenge;
-=======
->>>>>>> develop
 import com.creditas.challenge.model.*;
 import com.creditas.challenge.services.*;
 import org.junit.After;

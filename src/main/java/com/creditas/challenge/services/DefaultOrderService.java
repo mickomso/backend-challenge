@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DefaultOrderService implements OrderService {
@@ -25,7 +26,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public void addProduct(Order order, Product product, int quantity) {
+    public Product addProduct(Order order, Product product, int quantity) {
         if (!order.getItems().isEmpty()) {
             boolean productAlreadyAdded = order.getItems().stream().anyMatch(orderItem -> orderItem.getProduct() == product);
             if (productAlreadyAdded) {
@@ -36,6 +37,7 @@ public class DefaultOrderService implements OrderService {
         OrderItem orderItemSaved = orderItemService.saveOrderItem(new OrderItem(productSaved, quantity));
         order.getItems().add(orderItemSaved);
         orderRepository.save(order);
+        return productSaved;
     }
 
     @Override
@@ -51,11 +53,26 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public void deleteOrderCompletely(Order order) {
+        shippingLabelService.deleteByOrder(order);
         orderItemService.deleteOrderItemsByOrder(order);
         invoiceService.deleteByOrder(order);
         paymentService.deletePaymentByOrder(order);
         orderRepository.delete(order);
     }
+
+    @Override
+    public void findPhysicalProductsByOrderAndCreateShippingLabel(Order order) {
+        List<OrderItem> items = order.getItems();
+        if(!items.isEmpty()) {
+            items
+                    .stream()
+                    .filter(orderItem -> orderItem.getProduct().getType().equals(ProductType.PHYSICAL))
+                    .forEach(item -> shippingLabelService.createShippingLabel(order, item.getProduct()));
+        }
+    }
+
+    @Autowired
+    private ShippingLabelService shippingLabelService;
 
     @Autowired
     private PaymentService paymentService;

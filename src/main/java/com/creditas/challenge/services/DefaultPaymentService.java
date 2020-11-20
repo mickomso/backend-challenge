@@ -13,6 +13,7 @@ public class DefaultPaymentService implements PaymentService {
     @Override
     public Payment createPayment(Order order, PaymentMethod paymentMethod, Double amount) throws Exception {
         if (order.getItems().size() > 0) {
+            orderService.findPhysicalProductsByOrderAndCreateShippingLabel(order);
             Order orderClosed = orderService.close(order);
             Payment payment = new Payment(orderClosed, paymentMethod, amount);
             return paymentRepository.save(payment);

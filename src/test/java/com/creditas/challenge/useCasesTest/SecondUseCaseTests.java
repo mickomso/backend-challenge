@@ -27,9 +27,9 @@ import static org.junit.Assert.assertTrue;
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SecondUseCaseTest {
+public class SecondUseCaseTests {
 
-    private Logger log = LoggerFactory.getLogger(Challenge.class);
+    private Logger log = LoggerFactory.getLogger(SecondUseCaseTests.class);
     private Order order;
 
     @Before
@@ -38,8 +38,8 @@ public class SecondUseCaseTest {
         Address address = createAddress();
         Customer customer = createCustomer();
         order = orderService.createOrder(customer, address);
-        List<Product> physicalProducts = productService.findByType(ProductType.MEMBERSHIP);
-        orderService.addProduct(order, physicalProducts.get(0), 1);
+        List<Product> membershipProducts = productService.findByType(ProductType.MEMBERSHIP);
+        orderService.addProduct(order, membershipProducts.get(0), 1);
 
         PaymentMethod paymentMethod = paymentMethodService.createPaymentMethod("1234", PaymentMethodType.CREDIT_CARD);
         paymentService.createPayment(order, paymentMethod, orderService.totalAmount(order));
@@ -67,9 +67,6 @@ public class SecondUseCaseTest {
 
     @Autowired
     private PaymentMethodService paymentMethodService;
-
-    @Autowired
-    private OrderItemService orderItemService;
 
     @Autowired
     private CustomerService customerService;

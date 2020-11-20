@@ -46,4 +46,13 @@ public interface OrderService {
      * @param order
      */
     public void findPhysicalProductsByOrderAndCreateShippingLabel(Order order);
+
+
+    /**
+     * Creates and saves an order.
+     * @param customer
+     * @param address
+     * @return an order saved.
+     */
+    public Order createOrder(Customer customer, Address address);
 }

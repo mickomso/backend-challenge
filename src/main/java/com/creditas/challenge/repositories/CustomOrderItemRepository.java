@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface CustomOrderItemRepository {
 
-    @Query("SELECT item FROM OrderItem item, Order ordr WHERE item.order = ordr.id")
+    @Query("SELECT item FROM OrderItem item, Order ordr " +
+            "WHERE ordr.id = item.order AND item.order = :order")
     public List<OrderItem> findByOrder(Order order);
 }

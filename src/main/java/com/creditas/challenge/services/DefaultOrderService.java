@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -34,8 +35,9 @@ public class DefaultOrderService implements OrderService {
             }
         }
         Product productSaved = productService.saveProduct(product);
-        OrderItem orderItemSaved = orderItemService.saveOrderItem(new OrderItem(productSaved, quantity));
-        order.getItems().add(orderItemSaved);
+        orderItemService.saveOrderItem(new OrderItem(order,productSaved, quantity));
+        List<OrderItem> newListItems = orderItemService.findAllByOrder(order);
+        order.setItems(newListItems);
         orderRepository.save(order);
         return productSaved;
     }
@@ -69,6 +71,12 @@ public class DefaultOrderService implements OrderService {
                     .filter(orderItem -> orderItem.getProduct().getType().equals(ProductType.PHYSICAL))
                     .forEach(item -> shippingLabelService.createShippingLabel(order, item.getProduct()));
         }
+    }
+
+    @Override
+    public Order createOrder(Customer customer, Address address) {
+        Order order = new Order(customer,address);
+        return orderRepository.save(order);
     }
 
     @Autowired

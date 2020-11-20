@@ -2,6 +2,7 @@ package com.creditas.challenge.services;
 
 import com.creditas.challenge.model.*;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ShippingLabelService {
@@ -33,4 +34,11 @@ public interface ShippingLabelService {
      * @return an optional object with the shipping label found or an empty optional if not
      */
     public Optional<ShippingLabel> findById(Long id);
+
+    /**
+     * Finds a list of shipping labels
+     * @param order
+     * @return a list of shipping labels by order
+     */
+    public List<ShippingLabel> findByOrder(Order order);
 }

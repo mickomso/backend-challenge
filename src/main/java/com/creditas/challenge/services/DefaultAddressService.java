@@ -10,9 +10,6 @@ import java.util.Optional;
 @Service
 public class DefaultAddressService implements AddressService {
 
-    @Autowired
-    private AddressRepository addressRepository;
-
     @Override
     public Address saveAddress(Address address) {
         return addressRepository.save(address);
@@ -22,4 +19,14 @@ public class DefaultAddressService implements AddressService {
     public Optional<Address> findById(Long id) {
         return addressRepository.findById(id);
     }
+
+    @Override
+    public Address createAddress(String streetName, int number, String city, String country, String zipCode) {
+        Address addressSaved = this.saveAddress(new Address(streetName,number,city,country,zipCode));
+        return addressSaved;
+    }
+
+    @Autowired
+    private AddressRepository addressRepository;
+
 }

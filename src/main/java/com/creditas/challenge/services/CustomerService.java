@@ -8,7 +8,7 @@ public interface CustomerService {
 
     public Customer saveCustomer(Customer customer);
 
-    public Customer createCustomer();
+    public Customer createCustomer(String firstName, String lastName, String email);
 
     public Optional<Customer> findById(Long id);
 }

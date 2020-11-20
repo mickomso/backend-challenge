@@ -32,7 +32,7 @@ public class Order {
     private Address address;
     @Column(name = "CLOSED_AT")
     private Date closedAt;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new LinkedList<>();
 
     public Order(Customer customer, Address address) {

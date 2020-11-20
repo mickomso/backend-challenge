@@ -3,7 +3,6 @@ package com.creditas.challenge.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +11,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Entity
 public class ShippingLabel {
 
@@ -47,6 +45,21 @@ public class ShippingLabel {
 
     @Override
     public int hashCode() {
-        return Objects.hash(order, product);
+        return Objects.hash(id, order, product);
+    }
+
+    @Override
+    public String toString() {
+        return "SHIPPING LABEL {" +
+                "order_id=" + order.getId() +
+                ", product=Product(id=" + product.getId() +
+                ", type=" + product.getType() +
+                ", price=" + product.getPrice() +
+                ")" +
+                ", customer=" + order.getCustomer().getFirstName() +
+                " " + order.getCustomer().getLastName() +
+                ", address=" + order.getAddress() +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

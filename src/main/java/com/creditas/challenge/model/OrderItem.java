@@ -28,7 +28,8 @@ public class OrderItem {
     @Column(name = "QUANTITY")
     private int quantity;
 
-    public OrderItem(Product product, int quantity) {
+    public OrderItem(Order order, Product product, int quantity) {
+        this.order = order;
         this.product = product;
         this.quantity = quantity;
     }

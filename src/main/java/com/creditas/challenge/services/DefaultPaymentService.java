@@ -2,6 +2,8 @@ package com.creditas.challenge.services;
 
 import com.creditas.challenge.model.*;
 import com.creditas.challenge.repositories.PaymentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class DefaultPaymentService implements PaymentService {
+
+    Logger logger = LoggerFactory.getLogger(DefaultPaymentService.class);
 
     @Override
     public Payment createPayment(Order order, PaymentMethod paymentMethod, Double amount) throws Exception {
@@ -35,7 +39,13 @@ public class DefaultPaymentService implements PaymentService {
             bookItems.stream().forEach(item -> shippingLabelService.createShippingLabel(order,item.getProduct(),true));
         }
         if(!digitalItems.isEmpty()) {
-
+            digitalItems.stream().forEach(item -> {
+                try {
+                    discountService.createDiscount(order.getCustomer(),10.0);
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                }
+            });
         }
 
         Order orderClosed = orderService.close(order);
@@ -59,4 +69,7 @@ public class DefaultPaymentService implements PaymentService {
 
     @Autowired
     private SubscriptionService subscriptionService;
+
+    @Autowired
+    private DiscountService discountService;
 }
